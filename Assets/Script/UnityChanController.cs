@@ -63,7 +63,6 @@ void Start () {
 
 
         this.myRigidbody.AddForce(this.transform.forward * this.forwardForce);
-        Debug.Log(this.transform.forward);
 		
         if((Input.GetKey(KeyCode.LeftArrow) || this.isLButtonDown ) && -this.movableRange < this.transform.position.x)
         {
