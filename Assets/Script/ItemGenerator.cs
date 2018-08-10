@@ -12,24 +12,40 @@ public class ItemGenerator : MonoBehaviour
     private int startPos = -160;
     private int goalPos = 120;
     private float posRange = 3.4f;
+    private float unitychanPosZ;
+    private bool itemGem = true;
 
 
     // Use this for initialization
     void Start()
     {
 
+
+
+
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        unitychanPosZ = GameObject.Find("unitychan").transform.position.z;
+
         for (int i = startPos; i < goalPos; i += 15)
         {
-
             int num = Random.Range(1, 11);
 
             if (num <= 2)
             {
+
                 //cone*5
                 for (float j = -1; j <= 1; j += 0.4f)
                 {
-                    GameObject cone = Instantiate(conePrefab) as GameObject;
-                    cone.transform.position = new Vector3(posRange * j, cone.transform.position.y, i);
+                    if (i <= unitychanPosZ + 50 && ItemGen==true)
+                    {
+                        GameObject cone = Instantiate(conePrefab) as GameObject;
+                        cone.transform.position = new Vector3(posRange * j, cone.transform.position.y, i);
+                    }
                 }
             }
             else
@@ -44,13 +60,22 @@ public class ItemGenerator : MonoBehaviour
 
                     if (1 <= item && item <= 6)
                     {
-                        GameObject car = Instantiate(carPrefab) as GameObject;
-                        car.transform.position = new Vector3(posRange * j, car.transform.position.y, i + offsetz);
+
+                        if (i <= unitychanPosZ + 50)
+                        {
+                            GameObject car = Instantiate(carPrefab) as GameObject;
+                            car.transform.position = new Vector3(posRange * j, car.transform.position.y, i + offsetz);
+
+                        }
                     }
                     else if (7 <= item && item <= 9)
                     {
-                        GameObject coin = Instantiate(coinPrefab) as GameObject;
-                        coin.transform.position = new Vector3(posRange * j, coin.transform.position.y, i + offsetz);
+
+                        if (i <= unitychanPosZ + 50)
+                        {
+                            GameObject coin = Instantiate(coinPrefab) as GameObject;
+                            coin.transform.position = new Vector3(posRange * j, coin.transform.position.y, i + offsetz);
+                        }
                     }
                 }
 
@@ -60,11 +85,25 @@ public class ItemGenerator : MonoBehaviour
 
         }
 
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
+        GameObject carBehind = GameObject.Find("CarPrefab(Clone)");
+        GameObject coneBehind = GameObject.Find("TrafficConePrefab(Clone)");
+        GameObject coinBehind = GameObject.Find("CoinPrefab(Clone)");
+        GameObject camera = GameObject.Find("Main Camera");
+
+
+        if (carBehind.transform.position.z < camera.transform.position.z)
+        {
+            Destroy(carBehind);
+        }
+        if (coneBehind.transform.position.z < camera.transform.position.z)
+        {
+            Destroy(coneBehind);
+        }
+        if (coinBehind.transform.position.z < camera.transform.position.z)
+        {
+            Destroy(coinBehind);
+        }
 
     }
 
